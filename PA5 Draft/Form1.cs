@@ -23,6 +23,8 @@ namespace PA5_Draft
         private bool ShrinkAppleSize = true;
         private bool gameRunning = true;
         private double AppleSize = MAX_APPLE_SIZE;
+        private SoundPlayer gameOver = new SoundPlayer(@"gameover.wav");
+        private SoundPlayer appleEat = new SoundPlayer(@"biteSound.wav");
 
         public MainForm()
         {
@@ -44,9 +46,8 @@ namespace PA5_Draft
         private void Game_HitWallAndLose()
         {
             mainTimer.Stop();
-            Field.Refresh();
-            SoundPlayer player = new SoundPlayer(@"gameover.wav");
-            player.Play();
+            Field.Refresh();            
+            gameOver.Play();
             DialogResult d = MessageBox.Show(("You ate " + applesEaten + " apple(s)"), "You lose", MessageBoxButtons.OK);
             if(d == DialogResult.OK)
                 Application.Exit();
@@ -55,8 +56,7 @@ namespace PA5_Draft
         {
             mainTimer.Stop();
             Field.Refresh();
-            SoundPlayer player = new SoundPlayer(@"gameover.wav");
-            player.Play();
+            gameOver.Play();
             DialogResult d = MessageBox.Show(("You ate " + applesEaten + " apple(s)"), "You lose", MessageBoxButtons.OK);
             if (d == DialogResult.OK)
                 Application.Exit();
@@ -64,7 +64,8 @@ namespace PA5_Draft
 
         private void Game_EatAndGrow()
         {
-            applesEaten += 1;
+            appleEat.Play();
+            applesEaten += 1;            
             if(applesEaten % 10 == 0 && Step <=10)
             {
                 Step += 1;
@@ -111,9 +112,7 @@ namespace PA5_Draft
                         , new System.Drawing.Point(Obstacle.End.X, Obstacle.End.Y));
                 foreach (LineSeg Body in Game.SnakeBody)
                     g.DrawLine(PenForSnake, new System.Drawing.Point((int)Body.Start.X, (int)Body.Start.Y)
-                        , new System.Drawing.Point((int)Body.End.X, (int)Body.End.Y));
-
-                
+                        , new System.Drawing.Point((int)Body.End.X, (int)Body.End.Y));              
 
             }
         }
