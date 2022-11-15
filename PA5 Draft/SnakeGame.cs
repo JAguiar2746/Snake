@@ -156,8 +156,8 @@ namespace PA5_Draft
                         }
                     int Removed = -1;
                     for (int i = 0; i < Apples.Count; i++)
-                        if (Math.Abs(Apples[i].X - P.X) <= AppleSize / 2 &&
-                            Math.Abs(Apples[i].Y - P.Y) <= AppleSize / 2)
+                        if (Math.Abs(Apples[i].X - P.X) <= 10 &&
+                            Math.Abs(Apples[i].Y - P.Y) <= 10)
                         {
                             Removed = i;
                             WillGrow = true;

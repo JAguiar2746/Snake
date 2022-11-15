@@ -33,7 +33,8 @@
             this.Field = new System.Windows.Forms.PictureBox();
             this.mainTimer = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.level = new System.Windows.Forms.ToolStripProgressBar();
+            this.levelLabel = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.Field)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -46,6 +47,7 @@
             this.Field.Size = new System.Drawing.Size(604, 558);
             this.Field.TabIndex = 0;
             this.Field.TabStop = false;
+            this.Field.Click += new System.EventHandler(this.field_Click);
             this.Field.Paint += new System.Windows.Forms.PaintEventHandler(this.Field_Paint);
             // 
             // mainTimer
@@ -56,17 +58,25 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
+            this.level,
+            this.levelLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 558);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(604, 23);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // toolStripStatusLabel1
+            // level
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
+            this.level.Name = "level";
+            this.level.Size = new System.Drawing.Size(118, 17);
+            this.level.Value = 10;
+            // 
+            // levelLabel
+            // 
+            this.levelLabel.Name = "levelLabel";
+            this.levelLabel.Size = new System.Drawing.Size(49, 18);
+            this.levelLabel.Text = "Level : 1";
             // 
             // MainForm
             // 
@@ -94,7 +104,8 @@
         private System.Windows.Forms.PictureBox Field;
         private System.Windows.Forms.Timer mainTimer;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripProgressBar toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripProgressBar level;
+        private System.Windows.Forms.ToolStripStatusLabel levelLabel;
     }
 }
 

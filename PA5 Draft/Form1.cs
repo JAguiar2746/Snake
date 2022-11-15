@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,6 +21,7 @@ namespace PA5_Draft
         private static int MIN_APPLE_SIZE = 10;
         private double PrevAppleSize = MAX_APPLE_SIZE;
         private bool ShrinkAppleSize = true;
+        private bool gameRunning = true;
         private double AppleSize = MAX_APPLE_SIZE;
 
         public MainForm()
@@ -43,21 +45,34 @@ namespace PA5_Draft
         {
             mainTimer.Stop();
             Field.Refresh();
-            MessageBox.Show("You ate " + applesEaten + " apple/s");
+            SoundPlayer player = new SoundPlayer(@"gameover.wav");
+            player.Play();
+            DialogResult d = MessageBox.Show(("You ate " + applesEaten + " apple(s)"), "You lose", MessageBoxButtons.OK);
+            if(d == DialogResult.OK)
+                Application.Exit();
         }
         private void Game_HitSnakeAndLose()
         {
             mainTimer.Stop();
             Field.Refresh();
-            MessageBox.Show("You ate " + applesEaten + " apple/s");
+            SoundPlayer player = new SoundPlayer(@"gameover.wav");
+            player.Play();
+            DialogResult d = MessageBox.Show(("You ate " + applesEaten + " apple(s)"), "You lose", MessageBoxButtons.OK);
+            if (d == DialogResult.OK)
+                Application.Exit();
         }
 
         private void Game_EatAndGrow()
         {
             applesEaten += 1;
-            if(applesEaten % 10 == 0)
+            if(applesEaten % 10 == 0 && Step <=10)
             {
                 Step += 1;
+                if(level.Value < level.Maximum)
+                {
+                    level.Value += level.Step;
+                    levelLabel.Text = "Level : " + (level.Value/10);
+                }                    
             }
         }
 
@@ -78,18 +93,16 @@ namespace PA5_Draft
                 g.FillRectangle(BackGroundBrush,new Rectangle(0,0,Field.Width,Field.Height));
                 if (ShrinkAppleSize)
                 {
-                    AppleSize -= 1;
+                    AppleSize -= .5;
                     if (AppleSize <= MIN_APPLE_SIZE)
                         ShrinkAppleSize = false;
                 }
                 else
                 {
-                    AppleSize += 1;
+                    AppleSize += .5;
                     if (AppleSize >= MAX_APPLE_SIZE)
                         ShrinkAppleSize = true;
                 }
-
-
                 foreach (Point Apple in Game.Apples)
                     g.FillEllipse(AppleBrush, new Rectangle(Apple.X - (int)AppleSize / 2, Apple.Y - (int)AppleSize / 2,
                          (int)AppleSize, (int)AppleSize));
@@ -122,6 +135,20 @@ namespace PA5_Draft
                 case Keys.Right:
                     Game.Move(Step, Direction.RIGHT);
                     break;
+            }
+        }
+
+        private void field_Click(object sender, EventArgs e)
+        {
+            if(gameRunning == true)
+            {
+                mainTimer.Enabled = false;
+                gameRunning = false;
+            }
+            else
+            {
+                mainTimer.Enabled = true;
+                gameRunning = true;
             }
         }
     }
